@@ -513,6 +513,11 @@ static int dump_using_req(int sk, CriuOpts *req)
 {
 	bool success = false;
 	bool self_dump = !req->pid;
+	
+	//hijacked by xichen @0707
+	req->parent_img = "../pre";
+        req->has_track_mem =true;
+	req->track_mem = true;
 
 	if (setup_opts_from_req(sk, req))
 		goto exit;
