@@ -115,9 +115,11 @@ static int can_dump_inet_sk(const struct inet_sk_desc *sk)
 	BUG_ON((sk->sd.family != AF_INET) && (sk->sd.family != AF_INET6));
 
 	if (sk->shutdown) {
-		pr_err("Can't dump shutdown inet socket %x\n",
+		//hijacked by xichen @0707
+		pr_warn("Can't dump shutdown inet socket %x\n",
 				sk->sd.ino);
-		return 0;
+		//return 0;
+		return 1;
 	}
 
 	if (sk->type == SOCK_DGRAM) {
@@ -199,8 +201,9 @@ static struct inet_sk_desc *gen_uncon_sk(int lfd, const struct fd_parms *p, int 
 			goto err;
 		}
 	} else if (ret == 0) {
-		pr_err("Name resolved on unconnected socket\n");
-		goto err;
+		//hijacked by xichen @0707
+		pr_warn("Name resolved on unconnected socket\n");
+		//goto err;
 	}
 
 	sk->sd.ino = p->stat.st_ino;
@@ -221,9 +224,10 @@ static struct inet_sk_desc *gen_uncon_sk(int lfd, const struct fd_parms *p, int 
 		}
 
 		if (info.tcpi_state != TCP_CLOSE) {
-			pr_err("Socket state %d obtained but expected %d\n",
+			//hijacked by xichen @0707
+			pr_warn("Socket state %d obtained but expected %d\n",
 			       info.tcpi_state, TCP_CLOSE);
-			goto err;
+			//goto err;
 		}
 
 		sk->wqlen = info.tcpi_backoff;
